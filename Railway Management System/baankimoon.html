@@ -1,0 +1,56 @@
+<html>
+<head>
+<script type="text/javascript">
+<!--
+//preload images
+var image1=new Image()
+image1.src="images/1.jpg"
+var image2=new Image()
+image2.src="images/2.jpg"
+var image3=new Image()
+image3.src="images/3.jpg"
+var image4=new Image()
+image4.src="images/4.jpg"
+var image5=new Image()
+image5.src="images/5.jpg"
+//-->
+</script>
+</head>
+<body>
+<div id="Layer4" style="position: absolute; z-index: 5; width: 350px; height: 350px; top: 300px; left: 450px; ""
+	align="center">
+<a href="javascript:slidelink()">
+<img src="images/bann1.jpg" name="slide" border="0" width=100% height=370/></a>
+</div>
+<script type="text/javascript">
+<!--
+var step=1
+var whichimage=1
+function slideit(){
+if (!document.images)
+return
+document.images.slide.src=eval("image"+step+".src")
+whichimage=step
+if (step<5)
+step++
+else
+step=1
+setTimeout("slideit()",1000)
+}
+slideit()
+function slidelink(){
+if (whichimage==1)
+window.location="link1.htm"
+else if (whichimage==2)
+window.location="link2.htm"
+else if (whichimage==3)
+window.location="link3.htm"
+else if (whichimage==4)
+window.location="link4.htm"
+else if (whichimage==5)
+window.location="link5.htm"
+}
+//-->
+</script>
+</body>
+</html>

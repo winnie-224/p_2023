@@ -1,0 +1,254 @@
+<%@ page import="java.sql.*" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Registration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="GENERATOR" content="Rational Software Architect">
+</head>
+<body>
+<%
+
+  if(request.getParameter("FirstName")!=null && request.getParameter("LastName")!=null)
+  {
+  
+       Class.forName("oracle.jdbc.driver.OracleDriver");
+       Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","system","shree");  	   
+       PreparedStatement stmt=con.prepareStatement("insert into signup(FirstName,LastName,DateofBirth,Gender,UserName,Password,ConformPassword,SecurityQuestion,Answer,MobileNoEmailId,Address varchar(50),City varchar(50),PinCode,State,occupation)values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");   
+	   stmt.setString(1,request.getParameter("FirstName"));
+	   stmt.setString(2,request.getParameter("LastName"));
+            stmt.setString(3,request.getParameter("DD") + "-" + request.getParameter("Month") + "-" + request.getParameter("Year"));
+	   stmt.setString(4,request.getParameter("Gender"));
+	   stmt.setString(4,request.getParameter("userName"));
+	   stmt.setString(5,request.getParameter("Password"));
+	   stmt.setString(6,request.getParameter("fnam"));
+	   stmt.setString(7,request.getParameter("lname"));
+	   stmt.setString(8,request.getParameter("Gender"));
+	   stmt.setString(9,request.getParameter("DD") + "-" + request.getParameter("Month") + "-" + request.getParameter("Year"));
+                    stmt.setString(10,request.getParameter("Occupation"));
+	   stmt.setString(11,request.getParameter("EmailId"));	   
+	   stmt.setString(12,request.getParameter("MobileNo"));
+	   stmt.setString(13,request.getParameter("Address"));
+	   stmt.setString(14,request.getParameter("PinCode"));
+	   stmt.setString(15,request.getParameter("City"));
+	   stmt.setString(16,request.getParameter("State"));
+	   stmt.execute();   
+	        
+  }
+
+%>
+<div id="Layer4"
+	style="position: absolute; z-index: 5; width: 1362px; height: 65px; top: 0px; left: 0px; background-color: #045180"
+	align="center"><font color="#ffffff" face="Papyrus" size="+2"><b>MEGHDOOT</b></font><br>
+<font color="#ffffff" face="Shusha" size="+1"><marquee>Aapko sapnaao kao saakar krtI maoGadUt Baart kI phlaI AanalaaJna Dak saovaa</marquee></font><font
+	color="#ffffff" face="Shusha"></font></div>
+
+<div id="Layer0"
+	style="position: absolute; z-index: 6; width: 544px; height: 63px; top: 69px; left: 400px"
+	align="center"><font size="+3" face="Papyrus"><b>REGISTRATION
+FORM</b></font></div>
+<div id="Layer1"
+	style="position: absolute; z-index: 7; width: 704px; height: 436px; top: 136px; left: 1px">
+<form method="post" name="frmregistration">
+<table width="516" border="0" cellpadding="1" cellspacing="0">
+	<tbody>
+		<tr>
+			<td width="150">Username</td>
+			<td width="366"><input type="text" name="rusername" size="20"></td>
+		</tr>
+		<tr>
+			<td width="150">Password</td>
+			<td width="366"><input type="password" name="rpass" size="20"></td>
+		</tr>
+		<tr>
+			<td width="150">Confirm Password</td>
+			<td width="366"><input type="text" name="ConfirmPass" size="20"></td>
+		</tr>
+		<tr>
+			<td width="150">Security Question</td>
+			<td width="366"><select name="SecurityQuestion">
+				<option value="hello">Select question</option>
+				<option value="">What is the name of my first school</option>
+				<option value="">Where was I born</option>
+				<option value="">2+2*2/2=</option>
+				<option value="">My Favourite Food</option>
+				<option value="">My Pet's Name</option>
+				<option value=""></option>
+			</select></td>
+		</tr>
+		<tr>
+			<td width="150">Answer</td>
+			<td width="366"><input type="text" name="Answer" size="20"></td>
+		</tr>
+		<tr>
+			<td width="150">First Name</td>
+			<td width="366"><input type="text" name="fname" size="20"></td>
+		</tr>
+		<tr>
+			<td width="150">Last Name</td>
+			<td width="366"><input type="text" name="lname" size="20"></td>
+		</tr>
+		<tr>
+			<td width="150">Gender</td>
+			<td width="366"><select name="Gender">
+				<option value="Gender">Gender</option>
+				<option value="Male">Male</option>
+				<option value="female" selected>Female</option>
+			</select></td>
+		</tr>
+		<tr>
+			<td width="150">Date of Birth</td>
+			<td width="366"><select name="DD">
+				<option value="00">DD</option>
+				<option value="01">01</option>
+				<option value="02">02</option>
+				<option value="03">03</option>
+				<option value="04">04</option>
+				<option value="05">05</option>
+				<option value="06">06</option>
+				<option value="07">07</option>
+				<option value="08">08</option>
+				<option value="09">09</option>
+				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+				<option value="13">13</option>
+				<option value="14">14</option>
+				<option value="15">15</option>
+				<option value="16">16</option>
+				<option value="17">17</option>
+				<option value="18">18</option>
+				<option value="19">19</option>
+				<option value="20">20</option>
+				<option value="21">21</option>
+				<option value="22">22</option>
+				<option value="23">23</option>
+				<option value="24">24</option>
+				<option value="25">25</option>
+				<option value="26">26</option>
+				<option value="27">27</option>
+				<option value="28">28</option>
+				<option value="29">29</option>
+				<option value="30">30</option>
+				<option value="31">31</option>
+			</select> <select name="Month">
+				<option value="00">MM</option>
+				<option value="Jan">January</option>
+				<option value="Feb">February</option>
+				<option value="Mar">March</option>
+				<option value="Apr">April</option>
+				<option value="May">May</option>
+				<option value="Jun">June</option>
+				<option value="Jul">July</option>
+				<option value="Aug">August</option>
+				<option value="Sep">September</option>
+				<option value="Oct">October</option>
+				<option value="Nov">November</option>
+				<option value="Dec">December</option>
+			</select> <select name="Year">
+				<option value="00">YY</option>
+				<option value="2011">2011</option>
+				<option value="1992">1992</option>
+				<option value="1991">1991</option>
+				<option value="1990">1990</option>
+				<option value="1989">1989</option>
+				<option value="1988">1988</option>
+				<option value="1987">1987</option>
+			</select></td>
+		</tr>
+		<tr>
+			<td width="150">Occupation</td>
+			<td width="366"><select name="Occupation">
+				<option value="00">Select Occupation</option>
+				<option value="01">Architect</option>
+				<option value="02">Teacher</option>
+				<option value="03">Private Service</option>
+				<option value="">Business</option>
+				<option value="">Agriculture</option>
+				<option value="">Engineer</option>
+				<option value="">Doctor</option>
+				<option value="">Student</option>
+			</select></td>
+		</tr>
+		<tr>
+			<td width="150">Email</td>
+			<td width="366"><input type="text" name="EmailId" size="35"></td>
+		</tr>
+		<tr>
+			<td width="150">Mobile No.</td>
+			<td width="366"><input type="text" name="MobileNo" size="20"></td>
+		</tr>
+		<tr>
+			<td width="150">Address</td>
+			<td width="366"><input type="text" name="Address"></td>
+		</tr>
+		<tr>
+			<td width="150">Pincode</td>
+			<td width="366"><input type="text" name="pincode" size="6"></td>
+		</tr>
+<tr>
+			<td width="150">City</td>
+			<td width="366"><input type="text" name="City" size="35"></td>
+		</tr>
+		<tr>
+			<td width="150">State</td>
+			<td width="366"><input type="text" name="State" size="35"></td>
+		</tr>
+		<tr>
+			<td width="150"></td>
+			<td width="366"></td>
+		</tr>
+		<tr>
+			<td width="150">Enter the Text as in the Picture</td>
+			<td width="366"></td>
+		</tr>
+		<tr>
+			<td width="150"></td>
+			<td width="366"><input type="text" name="captcha" size="20"></td>
+		</tr>
+		<tr>
+			<td width="150" align="right"><input type="checkbox" name="tnc" value="TnC"></td>
+			<td width="366">I agree to the <a href="tnc.html" target="_blank">Terms of
+			Services</a> and the <a href="privacy.html" target="_blank">Privacy
+			Policy</a>.</td>
+		</tr>
+		<tr>
+			<td width="150"></td>
+			<td width="366"><input type="submit" name="Submit" value="Submit"></td>
+		</tr>
+		<tr>
+			<td width="150"></td>
+			<td width="366"></td>
+		</tr>
+		<tr>
+			<td width="150"></td>
+			<td width="366"></td>
+		</tr>
+	</tbody>
+</table>
+</form>
+</div>
+<div id="Layer4"
+	style="position: absolute; z-index: 5; width: 1362px; height: 65px; top: 0px; left: 0px; background-color: #045180"
+	align="center"><font color="#ffffff" face="Papyrus" size="+2"><b>MEGHDOOT</b></font><br>
+<font color="#ffffff" face="Shusha" size="+1"><marquee>Aapko sapnaao kao saakar krtI maoGadUt Baart kI phlaI AanalaaJna Dak saovaa</marquee></font><font
+	color="#ffffff" face="Shusha"></font></div>
+<h1 align="center">MEGHDOOT</h1>
+<div id="Layer5"
+	style="position: absolute; z-index: 6; width: 1362px; height: 50px; top: 666px; left: 0px; background-color: #03456f"><table
+	border="0" cellpadding="2" cellspacing="2" width="1398" height="35">
+	<tbody>
+		<tr>
+			<td align="center" width="126"><font color="#ffffff" size="4">Home</font></td>
+			<td align="center" width="153"><font color="#ffffff" size="4">About</font></td>
+			<td align="center" width="158"><font color="#ffffff" size="4">Privacy</font></td>
+			<td align="center" width="283"><font color="#ffffff" size="4">Terms &amp; Conditions</font></td>
+			<td align="left" width="676"><font color="#ffffff" size="4">Help</font></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+
+</body>
+</html>

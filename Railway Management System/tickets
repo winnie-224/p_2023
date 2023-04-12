@@ -1,0 +1,62 @@
+<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.*" errorPage="" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<%
+
+  if(request.getParameter("name")!=null && request.getParameter("kam")!=null)
+  {
+   Class.forName("oracle.jdbc.driver.OracleDriver");
+       Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","system","Shree");  	   
+       PreparedStatement stmt=con.prepareStatement("insert into ticket(book ,journey,mast,jaa,name,kam,passeng1 ,sex1 ,age1,type1,seat1,passeng2,sex2 ,age2,type2,seat2,passeng3 ,sex3 ,age3,type3,seat3,passeng4,sex4,age4 ,type4 ,seat4,passeng5,sex5,age5,type5,seat5,passeng6,sex6,age6,type6,seat6)values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");   
+	   stmt.setString(1,request.getParameter("book")+ "-" + request.getParameter("Month") + "-" + request.getParameter("Year"));
+	   stmt.setString(2,request.getParameter("journey")+ "-" + request.getParameter("Month") + "-" + request.getParameter("Year"));
+	   stmt.setString(3,request.getParameter("mast"));
+	   stmt.setString(4,request.getParameter("jaa"));
+	   stmt.setString(5,request.getParameter("name"));
+	   stmt.setString(6,request.getParameter("kam"));
+	   stmt.setString(7,request.getParameter("passeng1"));
+	   stmt.setString(8,request.getParameter("sex1"));
+	   stmt.setString(9,request.getParameter("age1") );
+       stmt.setString(10,request.getParameter("type1"));
+	   stmt.setString(11,request.getParameter("seat1"));	   
+	   stmt.setString(12,request.getParameter("passeng2"));
+	   stmt.setString(13,request.getParameter("sex2"));
+	   stmt.setString(14,request.getParameter("age2") );
+       stmt.setString(15,request.getParameter("type2"));
+	   stmt.setString(16,request.getParameter("seat2"));	   
+	   stmt.setString(17,request.getParameter("passeng3"));
+	   stmt.setString(18,request.getParameter("sex3"));
+	   stmt.setString(19,request.getParameter("age3") );
+       stmt.setString(20,request.getParameter("type3"));
+	   stmt.setString(21,request.getParameter("seat3"));	   
+	   stmt.setString(22,request.getParameter("passeng4"));
+	   stmt.setString(23,request.getParameter("sex4"));
+	   stmt.setString(24,request.getParameter("age4") );
+       stmt.setString(25,request.getParameter("type4"));
+	   stmt.setString(26,request.getParameter("seat4"));	   
+	   stmt.setString(27,request.getParameter("passeng5"));
+	   stmt.setString(28,request.getParameter("sex5"));
+	   stmt.setString(29,request.getParameter("age5") );
+       stmt.setString(30,request.getParameter("type5"));
+	   stmt.setString(31,request.getParameter("seat5"));	   
+	   stmt.setString(32,request.getParameter("passeng6"));
+	   stmt.setString(33,request.getParameter("sex6"));
+	   stmt.setString(34,request.getParameter("age1") );
+       stmt.setString(35,request.getParameter("type1"));
+	   stmt.setString(36,request.getParameter("seat1"));	   
+	   
+	   stmt.execute();   
+	        
+  }
+
+%>
+
+
+</body>
+</html>

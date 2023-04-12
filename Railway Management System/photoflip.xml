@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<photos path="images/">
+	<photo name="Photo 1" url="1.jpg">photo description</photo>	
+	<photo name="Photo 2" url="2.jpg">photo description</photo>	
+	<photo name="Photo 3" url="3.jpg">photo description</photo>	
+	<photo name="Photo 4" url="4.jpg">photo description</photo>	
+	<photo name="Photo 5" url="5.jpg">photo description</photo>	
+	<photo name="Photo 6" url="6.jpg">photo description</photo>	
+	<photo name="Photo 7" url="7.jpg">photo description</photo>	
+	<photo name="Photo 8" url="8.jpg">photo description</photo>	
+	<photo name="Photo 9" url="9.jpg">photo description</photo>	
+	<photo name="Photo 10" url="1.jpg">photo description</photo>	
+	<photo name="Photo 11" url="2.jpg">photo description</photo>	
+	<photo name="Photo 12" url="3.jpg">photo description</photo>	
+	<photo name="Photo 13" url="4.jpg">photo description</photo>	
+	<photo name="Photo 14" url="5.jpg">photo description</photo>	
+	<photo name="Photo 1" url="6.jpg">photo description</photo>	
+	<photo name="Photo 2" url="7.jpg">photo description</photo>	
+	<photo name="Photo 3" url="8.jpg">photo description</photo>	
+	<photo name="Photo 4" url="9.jpg">photo description</photo>	
+		
+	<photo name="Photo 1" url="1.jpg">photo description</photo>	
+	<photo name="Photo 2" url="2.jpg">photo description</photo>	
+	<photo name="Photo 3" url="3.jpg">photo description</photo>	
+	<photo name="Photo 4" url="4.jpg">photo description</photo>	
+	<photo name="Photo 5" url="5.jpg">photo description</photo>	
+	<photo name="Photo 6" url="6.jpg">photo description</photo>	
+	<photo name="Photo 7" url="7.jpg">photo description</photo>	
+	<photo name="Photo 8" url="8.jpg">photo description</photo>	
+	<photo name="Photo 9" url="9.jpg">photo description</photo>	
+</photos>
