@@ -1,0 +1,90 @@
+<script language="JavaScript" type="text/javascript"> 
+function zxcSlideShow(zxcid,zxcnu,zxchold,zxcspd){
+ var zxcobj=document.getElementById(zxcid);
+ zxcobj.hold=zxchold||zxcobj.hold;
+ zxcobj.spd=zxcspd||zxcobj.zxcspd;
+ if (!zxcobj.oop) zxcobj.oop=new zxcSlideShowOOP(zxcobj,zxcnu,zxchold,zxcspd);
+ else {
+  var zxcoop=zxcobj.oop;
+  clearTimeout(zxcoop.to);
+  if (typeof(zxcnu)=='number') zxcnu=zxcoop.max-zxcnu;
+  if (zxcnu=='+'||zxcnu=='-'){
+   if (zxcnu=='+') zxcnu=zxcoop.nu-1;
+   else zxcnu=zxcoop.nu+1;
+   zxcnu=Math.max(Math.min(zxcoop.max,zxcnu),0);
+  }
+  if (typeof(zxcnu)=='number') zxcoop.fade(zxcnu);
+  else if (zxcnu.indexOf('auto')>-1) zxcoop.auto(zxcnu);
+ }
+}
+ 
+function zxcSlideShowOOP(zxcobj,zxcnu,zxchold,zxcspd){
+ this.obj=zxcobj;
+ this.imgary=[];
+ var zxcimgs=zxcobj.getElementsByTagName('IMG');
+ this.nu=zxcnu;
+ this.max=zxcimgs.length-1;
+ this.nu=this.max-zxcnu;
+ for (var zxc0=0;zxc0<this.max+1;zxc0++){
+  zxcimgs[zxc0].fade=[zxc0!=this.nu?0:100,zxc0!=this.nu?100:0];
+  zxcimgs[zxc0].style.zIndex=zxc0!=this.nu?0:1;
+  zxcimgs[zxc0].style.visibility=zxc0!=this.nu?'hidden':'visible';
+  this.imgary.push(zxcimgs[zxc0]);
+ }
+ this.lst=zxcimgs[this.nu];
+ this.to=null;
+}
+ 
+zxcSlideShowOOP.prototype.fade=function(zxcnu){
+ var zxcnxt=this.imgary[zxcnu];
+ if (zxcnxt&&zxcnxt!=this.lst){
+  this.nu=zxcnu;
+  zxcBAnimator('opacity#',this.lst,this.lst.fade[0],this.lst.fade[1],1000);
+  this.lst.style.zIndex=0;
+  zxcBAnimator('opacity#',zxcnxt,zxcnxt.fade[0],zxcnxt.fade[1],this.obj.spd);
+  zxcnxt.style.visibility='visible'
+  zxcnxt.style.zIndex=1;
+  this.lst=zxcnxt;
+ }
+}
+ 
+zxcSlideShowOOP.prototype.auto=function(zxcmde){
+ if (zxcmde.indexOf('-')>-1) zxcnu=this.nu+1;
+ else zxcnu=zxcnu=this.nu-1;
+ zxcnu=zxcnu<0?this.max:zxcnu>this.max?0:zxcnu;
+ this.fade(zxcnu);
+ this.to=setTimeout(function(zxcoop){return function(){zxcoop.auto(zxcmde);}}(this),this.obj.hold);
+}
+</script> 
+ 
+<body onload="zxcSlideShow('Tst',0,5000,2000);zxcSlideShow('Tst','auto+');"> 
+<div id="Tst"> 
+ 
+<img src="images/1(1).jpg" /> 
+ 
+
+<img src="images/1(2).jpg" />
+<img src="images/1(4).jpg" />
+ 
+<!--<img src="/mobilestore/tiles/templates/media/images/mobileStore/centerBanner4.jpg" /> 
+ 
+<a href="/mobilestore/cellphone-buy/store-price_shop-3_online-2_latest-1_/Mobile_Phones/Blackberry.html"> 
+<img src="/mobilestore/tiles/templates/media/images/mobileStore/preBookNow.jpg" /></a> 
+ 
+<!-- <a href="/mobilestore/best-buy/store-price_Buy-1042_shop-3_online-7_latest-1_/Mobile_Phones/Nokia/Nokia_E6-00_Silver.html"><img src="/mobilestore/tiles/templates/media/images/mobileStore/preBookNowNokia.jpg" /></a> 
+ 
+<a href="http://www.facebook.com/note.php?created&&note_id=249397725075745&id=215307308484787">
+<img src="/mobilestore/tiles/templates/media/images/mobileStore/facebook_TwiterBanner.jpg" /></a> --> 
+ 
+<!-- <a href="/mobilestore/best-buy/store-price_Buy-994_shop-3_online-8_latest-1_/Mobile_Phones/Samsung_/Samsung_Galaxy_Pro_B7510.html"><img src="/mobilestore/tiles/templates/media/images/mobileStore/samsungGalaxyProBanner.jpg" /></a>--> 
+ 
+<a href="/mobilestore/faces/jsp/hundreadPercentBack.jsp"> 
+<img src="/mobilestore/tiles/templates/media/images/mobileStore/upto_100P_cashbackBanner.jpg" /></a> 
+ 
+<a href="/mobilestore/faces/jsp/movieCard.jsp"> 
+<img src="/mobilestore/tiles/templates/media/images/mobileStore/12movieCardValidCoupon_630x337.jpg" /></a> 
+ 
+<a href="/mobilestore/faces/jsp/fivePercentBack.jsp"> 
+<img src="/mobilestore/tiles/templates/media/images/mobileStore/cashBack_630-x-337.jpg" /></a> --!>
+</div> 
+</body> 

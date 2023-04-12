@@ -1,0 +1,21 @@
+<head><script type="text/javascript">
+function sendText() {	    	
+	xmlrequest.open("GET",'autocomplete.php?content='+document.getElementById('fred').value,true);
+	xmlrequest.send(null);
+}
+
+function handleReply () {
+	if(xmlrequest.readyState==4) {
+    	document.getElementById('suggestion').value=xmlrequest.responseText;
+	}
+}
+	    
+var xmlrequest=new XMLHttpRequest();
+xmlrequest.onreadystatechange=handleReply;
+</script>        </head>
+<body>
+<form name="thisform">
+	<input type="text" size="40" id="fred" name="fred" onkeyup="sendText();">
+	<input type="text" size="60" id="suggestion" name="suggestion">
+</form>    </body>        
+        

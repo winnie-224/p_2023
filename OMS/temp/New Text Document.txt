@@ -1,0 +1,9 @@
+<?php 
+if(!isset($_COOKIE['userid']))
+{
+header('Location:index.php?val=expire');
+}
+?>
+<?php 
+if($_REQUEST['val']=='expire');
+echo "<div style='color:red;background-color:#FFE4E1;border:1px solid red;'>PAGE HAS EXPIRED!</div>";?>

@@ -1,0 +1,190 @@
+
+
+<style type="text/css" media="screen,projection">
+.mainmenu{
+	float: left;
+	width: 100%;
+	padding: 0;
+ position:relative;
+display:block;
+height:42px;
+font-size:11px;
+font-weight:bold;
+background:transparent url(images/redslate_background.gif) repeat-x top left;
+font-family:Sybil Green;
+}
+.mainmenu ul{
+	float: left;
+	width: 100%;
+	list-style: none;
+	padding: 0;
+	margin: 0 1px 0 0;
+}
+
+.mainmenu a, .mainmenu a:visited {
+color:#FECCC3;
+text-decoration:none;
+padding:14px 22px 0 22px;
+height:28px;
+	display: block;font-weight:bold;
+	
+	
+}
+.mainmenu ul ul a{
+	width:100%;
+	height:100%;
+}
+.mainmenu ul a{
+	width:1%;
+}
+
+
+.mainmenu li  {
+	float: left;
+	margin:0;
+	padding:0;
+}
+
+.mainmenu ul li {float:left; position:relative;}
+.mainmenu ul li a {white-space:nowrap;}
+	
+.mainmenu li ul {
+	position: absolute;
+	left: -999em;
+	height: auto;
+	width:15em;	
+	background:#E55451;
+	font-weight: normal;
+	border-width: 1px;
+	margin: 0;
+}
+
+.mainmenu li li {
+	width:15em ;
+}
+
+.mainmenu li li a{
+	width:13em ;
+}
+
+.mainmenu li ul  {
+	margin: 0;
+}
+.mainmenu li ul ul {
+	margin: -2.8em 0 0 13.5em;
+}
+.ul_ch, 
+.mainmenu li:hover ul ul,
+.mainmenu li li:hover ul ul,
+.mainmenu li li li:hover ul ul,
+.mainmenu li li li li:hover ul ul,
+.mainmenu li li li li li:hover ul ul
+{
+	left: -999em;
+}
+.mainmenu li:hover ul,
+.mainmenu li li:hover ul,
+.mainmenu li li li:hover ul,
+.mainmenu li li li li:hover ul,
+.mainmenu li li li li li:hover ul
+{
+	left: auto;
+}
+.mainmenu li:hover>ul.ul_ch   
+{
+	left: auto;
+}
+
+.mainmenu li:hover{
+	background:url(images/redslate_backgroundOVER.gif);
+}
+
+.mainmenu li:hover a,.mainmenu li:hover a:visited,.mainmenu li:hover a:hover,.mainmenu li a:hover{
+	color:#FECCC3;
+}
+.mainmenu li:hover li a, .mainmenu li li:hover li a, 
+.mainmenu li li li:hover li a, .mainmenu li li li li:hover li a,
+.mainmenu li:hover li a:visited, .mainmenu li li:hover li a:visited, 
+.mainmenu li li li:hover li a:visited, .mainmenu li li li li:hover li a:visited
+{
+	color:#FECCC3;
+}
+.mainmenu li li:hover, .mainmenu li li li:hover, 
+.mainmenu li li li li:hover , .mainmenu li li li li li:hover , .mainmenu li li li li li li:hover 
+{
+	background:#C24641;
+	z-index:9999;
+}
+.mainmenu li li:hover a,.mainmenu li li li:hover a, 
+.mainmenu li li li li:hover a, .mainmenu li li li li li:hover a
+{
+	color:#C24641; 
+}
+
+.mainmenu ul ul a, .mainmenu ul ul a:visited,
+.mainmenu li li a, .mainmenu li li a:visited
+{
+	color:#FECCC3;
+}
+.mainmenu ul ul a:hover,
+.mainmenu li:hover li:hover a,.mainmenu li:hover li:hover a:visited ,
+.mainmenu li:hover li:hover li:hover a,.mainmenu li:hover li:hover li:hover a:visited,
+.mainmenu li:hover li:hover li:hover li:hover a,.mainmenu li:hover li:hover li:hover li:hover a:visited ,
+.mainmenu li:hover li:hover li:hover li:hover li:hover a,.mainmenu li:hover li:hover li:hover li:hover li:hover a:visited,
+.mainmenu li:hover li:hover li:hover li:hover li:hover li:hover a,.mainmenu li:hover li:hover li:hover li:hover li:hover li:hover a:visited{
+	color:#FECCC3;
+}
+.mainmenu li:hover li:hover li a,.mainmenu li:hover li:hover li a:visited ,
+.mainmenu li:hover li:hover li:hover li a,.mainmenu li:hover li:hover li:hover li a:visited,
+.mainmenu li:hover li:hover li:hover li:hover li a,.mainmenu li:hover li:hover li:hover li:hover li a:visited,
+.mainmenu li:hover li:hover li:hover li:hover li:hover li a,.mainmenu li:hover li:hover li:hover li:hover li:hover li a:visited{
+	color:#FECCC3;
+}
+
+
+/* end of mainmenu css */
+
+
+
+</style>
+
+</head>
+
+<body
+<!-- PULL DOWN MENU - BEGIN -->
+
+<div class="mainmenu">
+
+<ul>
+      <li class="li_nc"><a href="/" target="_self" >Home</a></li>
+      <li class="li_hc"><a href="#" target="_self" >Products</a><ul class="ul_ch">
+         <li class="li_hc"><a href="#" target="_self" >Product 1</a><ul class="ul_ch">
+            <li class="li_hc"><a href="#"  >Description</a><ul class="ul_ch">
+               <li class="li_nc"><a href="#"  >Overview</a></li>
+               <li class="li_nc"><a href="#"  >General Info</a></li>
+               <li class="li_nc"><a href="#"  >License</a></li>
+            </ul></li>
+            <li class="li_nc"><a href="#"  >Buy Now</a></li>
+         </ul></li>
+         <li class="li_nc"><a href="#" target="_self" >Product 2</a></li>
+         <li class="li_nc"><a href="#" target="_self" >Product 3</a></li>
+      </ul></li>
+      <li class="li_hc"><a href="#" target="_self" >Services</a><ul class="ul_ch">
+         <li class="li_nc"><a href="#" target="_self" >Service 1</a></li>
+         <li class="li_nc"><a href="#" target="_self" >Service 2</a></li>
+         <li class="li_nc"><a href="#" target="_self" >Service 3</a></li>
+         <li class="li_nc"><a href="#" target="_self" >Service 4</a></li>
+         <li class="li_nc"><a href="#" target="_self" >Service 5</a></li>
+      </ul></li>
+</ul>
+
+
+</div>
+
+<!-- END OF PULL DOWN MENU -->
+
+<p>&nbsp;</p>
+<p>This is just a demo page...</p>
+
+</body>
+</html>

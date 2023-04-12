@@ -1,0 +1,67 @@
+-- phpMyAdmin SQL Dump
+-- version 3.3.9
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jul 23, 2011 at 07:40 AM
+-- Server version: 5.1.53
+-- PHP Version: 5.3.4
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `userinfo`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `myinfo`
+--
+
+CREATE TABLE IF NOT EXISTS `myinfo` (
+  `uno` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(20) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  `hQ` varchar(20) NOT NULL,
+  `hA` varchar(10) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `pincode` int(10) NOT NULL,
+  `country` int(10) NOT NULL,
+  `dob` date NOT NULL,
+  `mobile` bigint(12) NOT NULL,
+  PRIMARY KEY (`uno`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `myinfo`
+--
+
+INSERT INTO `myinfo` (`uno`, `name`, `email`, `password`, `hQ`, `hA`, `address`, `pincode`, `country`, `dob`, `mobile`) VALUES
+(1, 'Amit', 'amit23@gmail.com', 'allahabad', '2a', 'marie', 'allahabad', 211019, 99, '2011-07-22', 9659765646);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction`
+--
+
+CREATE TABLE IF NOT EXISTS `transaction` (
+  `userid` varchar(20) NOT NULL,
+  `itempurchased` varchar(20) NOT NULL,
+  `costpaid` float NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `purdate` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `transaction`
+--
+

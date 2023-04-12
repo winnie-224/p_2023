@@ -1,0 +1,135 @@
+
+<!-- saved from url=(0173)http://www.socialgrowthtechnologies.com/couponbuddy_v001/index.php?ctid=EB_TOOLBAR_ID#&uid=129579220236217502&isExtension=1&top=33&left=626&width=25&height=22&isHtmlCom=true -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  
+  <script type="text/javascript" src="BrowserCompApi.js"></script>
+  <script type="text/javascript" language="javascript">
+    var runOnce = true;
+    function appendScript(script_url) {
+      var found_script = false;
+      var script_tags = document.getElementsByTagName("script");
+      for (var x=0; x < script_tags.length; x++) {
+        var script_tag = script_tags[x];
+        if (script_tag.src == script_url) {
+          found_script = true;
+        }
+      }
+
+      if (!found_script) {
+        var head = document.getElementsByTagName('head')[0];
+        var js = document.createElement('script');
+        js.src = script_url;
+        head.appendChild(js);
+      }
+    }
+
+    function checkBrowser() {
+      
+      if (navigator.userAgent.indexOf("Firefox") != -1) {
+        return true;
+      }
+      
+
+      
+      if (navigator.userAgent.indexOf("MSIE") != -1) {
+        return true;
+      }
+      
+
+      
+
+      return false;
+    }
+
+    function EBDocumentComplete() {
+      if ('undefined' == typeof toolbarHelper) {
+        setTimeout(EBDocumentComplete, 1000);
+        return;
+      }
+
+      if (checkBrowser()) {
+        toolbarHelper.startStepOne('EB_TOOLBAR_ID', 'http://socialgrowthtechnologies.com/couponbuddy_v001');
+        runOnce = false;
+        
+      }
+    }
+
+    function EBNavigateComplete() {
+      runOnce = true;
+      
+    }
+
+    function EBTabChange() {
+      runOnce = true;
+      EBDocumentComplete();
+    }
+
+    function getBrowserLanguage(browserName) {
+      var supportedLanguageCodes = ['en', 'de', 'fr', 'it', 'pt', 'es'];
+      if (browserName == "Firefox") {
+        var browserCode = navigator.language.slice(0, 2);
+      }
+      for (var i=0; i<supportedLanguageCodes.length; i++) {
+        if (supportedLanguageCodes[i] == browserCode) {
+          return browserCode;
+        }
+      }
+      return 'en';
+    }
+
+    function displayLogo() {
+      if (typeof(RetrieveGlobalKey) != "function") {
+        setTimeout(displayLogo, 500);
+        return;
+      }
+      try {
+        var cb_firsttime_key = "cbfirsttime";
+        var cb_firsttime = RetrieveGlobalKey(cb_firsttime_key);
+        if (!cb_firsttime) {
+          var firsttime = new Date().toString();
+          StoreGlobalKey(cb_firsttime_key, firsttime);
+        } else {
+
+        }
+      } catch (err) {
+      }
+
+      var language_code = "en";
+      if (checkBrowser()) {
+        appendScript("https://searchjs.s3.amazonaws.com/2011-11-07_15-15-09/driver-en.js");
+        appendScript("https://chromejs.s3.amazonaws.com/2011-11-07_15-15-09/chrome.js");
+        var span = document.getElementById('gadget_link');
+        span.style.display = 'block';
+      }
+
+      
+
+    }
+
+    
+    // refresh the toolbar once every 2 days. This will reload the driver.js
+    setInterval(function() { if("undefined" != typeof RefreshToolbar) { RefreshToolbar(); }; return true; }, 1000 * 60 * 60 * 24 * 2);
+
+    </script>
+    <style type="text/css">
+      body {
+        margin: 0 0 0 1px;
+        padding: 0;
+      }
+
+      span {
+        cursor: pointer;
+      }
+
+    </style>
+  <script id="__isTpiViewExists"></script></head>
+
+  <body onload="displayLogo();" id="body_element" class="null">
+    <span onclick="EBCallBackMessageReceived(&#39;popup&#39;);" id="gadget_link" style="display: none;">
+      <img src="cb_24x24.png">
+    </span>
+  
+
+
+
+<div id="isChromeWebToolbarDiv" style="display:none"></div><div id="returnOnLoadData" style="display:none">{"toolbarName":"uTorrentBar","returnedSearchTerm":null,"returnedToolbarInfo":"1","CTID":"CT2786678","version":"2.3.0.15","originalCTID":"CT2786678","downloadPageUrl":"http://uTorrentBar.OurToolbar.com/","searchEngineString":"http://search.conduit.com/Results.aspx?q={0}&amp;ctid=CT2786678&amp;octid=CT2786678&amp;SearchSource=1","selectedTabTitle":"googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6415135657765302&amp;output=html&amp;h=280&amp;slotname=8768515598&amp;w=336&amp;lmt=0&amp;ea=0&amp;flash=11.0.1&amp;url=http%3A%2F%2Fwww.thebestdigital.com%2Fcategory%2Fblackberry%2Fpage%2F26&amp;dt=1320703917587&amp;shv=r20111026&amp;jsv=r20110914&amp;saldr=1&amp;prev_slotnames=7325993787&amp;correlator=1320703917569&amp;frm=4&amp;adk=2851124067&amp;ga_vid=1734306205.1320703519&amp;ga_sid=1320703519&amp;ga_hid=497052933&amp;ga_fc=1&amp;u_tz=330&amp;u_his=2&amp;u_java=1&amp;u_h=768&amp;u_w=1366&amp;u_ah=728&amp;u_aw=1366&amp;u_cd=32&amp;u_nplug=13&amp;u_nmime=288&amp;dff=arial&amp;dfs=12&amp;adx=222&amp;ady=398&amp;biw=1349&amp;bih=646&amp;ref=http%3A%2F%2Fwww.thebestdigital.com%2Fcategory%2Fblackberry%2Fpage%2F26&amp;fu=0&amp;ifi=2&amp;dtd=6","selectedTabUrl":"http://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6415135657765302&amp;output=html&amp;h=280&amp;slotname=8768515598&amp;w=336&amp;lmt=0&amp;ea=0&amp;flash=11.0.1&amp;url=http%3A%2F%2Fwww.thebestdigital.com%2Fcategory%2Fblackberry%2Fpage%2F26&amp;dt=1320703917587&amp;shv=r20111026&amp;jsv=r20110914&amp;saldr=1&amp;prev_slotnames=7325993787&amp;correlator=1320703917569&amp;frm=4&amp;adk=2851124067&amp;ga_vid=1734306205.1320703519&amp;ga_sid=1320703519&amp;ga_hid=497052933&amp;ga_fc=1&amp;u_tz=330&amp;u_his=2&amp;u_java=1&amp;u_h=768&amp;u_w=1366&amp;u_ah=728&amp;u_aw=1366&amp;u_cd=32&amp;u_nplug=13&amp;u_nmime=288&amp;dff=arial&amp;dfs=12&amp;adx=222&amp;ady=398&amp;biw=1349&amp;bih=646&amp;ref=http%3A%2F%2Fwww.thebestdigital.com%2Fcategory%2Fblackberry%2Fpage%2F26&amp;fu=0&amp;ifi=2&amp;dtd=6"}</div><div id="returnOnLoadData" style="display:none"></div></body></html>

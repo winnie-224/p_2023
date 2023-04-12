@@ -1,0 +1,985 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0147)http://cap1.conduit-apps.com/uTorrent/20110207/maincomp.php#&uid=129526967958500204&isExtension=1&top=33&left=307&width=21&height=22&isHtmlCom=true -->
+<html mlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title></title>
+		<meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
+        <script type="text/javascript" name="conduitApi" src="BrowserCompApi.js"></script>
+        <script type="text/javascript" name="jQuery" src="jquery-latest.js"></script>
+        <script type="text/javascript" src="json.js"></script>
+		<script type="text/javascript" src="json.as"></script>
+		<!-- <script type="text/javascript" src="https://github.com/douglascrockford/JSON-js/raw/master/json.js"></script> -->
+		<script type="text/javascript" src="json2.js"></script>
+		
+        <script type="text/javascript" name="Cookies">
+            function createCookie(name, value, days) {
+            if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    var expires = "; expires=" + date.toGMTString();
+            } else var expires = "";
+            document.cookie = name + "=" + value + expires + "; path=/";
+            }
+	
+            function readCookie(name) {
+                    var nameEQ = name + "=";
+                    var ca = document.cookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                            var c = ca[i];
+                            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                    }
+                    return null;
+            }
+	
+            function eraseCookie(name) {
+                    createCookie(name, "", -1);
+            }
+        </script>
+        <script type="text/javascript" name="uTorrentPortScan">
+            // Configuration JSON
+            var target = "127.0.0.1";
+            var utPort = null;
+			var port;
+			var portVar;
+			//var detectPortInterval;
+			
+			
+            var resultImg;
+			
+            function scanPort()
+            {
+                
+				if (utPort == null) {
+					// uT Formula for port scanning
+					port = 10000 + 5 * portVar + 3 * portVar * portVar + 7 * portVar * portVar * portVar;
+					
+					
+					// If Didn't find the uT Port, keep scanning till end of port range
+					//resultImg.onerror = imgError;
+					
+					
+					
+					resultImg.src = 'http://' + target + ':' + port + '/gui/pingimg&r=' + Math.random();
+				}
+				
+				/*
+				var previousData = document.getElementById('pingimg');
+                var resultImg = document.createElement('img');
+				resultImg.onload = function() { alert('img load'); portFound(port); };
+                resultImg.onerror = function() {
+					alert('img error');
+					if (port > 50000) {
+						portFound(-1);
+					}
+                    else
+                    {
+                        //scanPort(portFound, portVar + 1);
+						scanPort(portVar + 1);
+                    }
+                };
+                
+                resultImg.id = 'pingimg';
+				resultImg.src = 'http://' + target + ':' + port + '/gui/pingimg';
+                var imgSpan = document.getElementById('pingimgSpan');
+                imgSpan.replaceChild(resultImg, previousData);*/
+            }
+			
+			
+            function portFound()
+            {
+				if (port >= 0)
+                {
+                    //window.clearInterval(detectPortInterval);
+					utPort = port;
+					port = -1;
+					resultImg.onerror = function() {};
+					resultImg.onload = function() {};
+					resultImg.src = '';
+					resultImg = null;
+					StoreGlobalKey("scriptSource", "http://" + target + ":" + utPort + "/gui/");
+					
+					//clearInterval(detectPortInterval);
+					uTconnect();
+                }
+				else 
+				{
+					reCheckPorts = true;
+				}
+            }
+            
+            var reCheckPorts = false;
+			/*var detectPortInterval = setInterval(function() {
+				if (reCheckPorts) {
+					reCheckPorts = false;
+					setTimeout(uTdetect,300);
+				}
+			}, 2000);*/
+			
+			var testFlag = true;
+			// Scan for uTorrent on port range
+            function uTdetect()
+            {
+				//StoreGlobalKey('PairingKey', "1234");
+				//reCheckPorts = false;
+				resultImg = new Image();
+				resultImg.onerror = function() {
+					if (port > 50000) {
+						portVar = 0;
+						scanPort();
+					}
+					else
+					{
+						//scanPort(portFound, portVar + 1);
+						portVar++;
+						scanPort();
+					}
+				};
+				resultImg.onload = function() { portFound(); };
+				portVar = 0;
+				scanPort();
+            }
+            
+        </script>
+        <script type="text/javascript" name="uTorrentJSON">
+            var pairingKey = null;
+            var uTJSON = null;
+            function jSONP(parameters, callback)
+            {
+				var previousData = document.getElementById('uTdata');
+                var script = document.createElement('script');
+                
+                var scriptSource = 'http://' + target + ':' + utPort + '/gui/' + parameters;
+                if (callback)
+                    scriptSource += '&callback=' + callback;
+                if (pairingKey)
+                    scriptSource += '&pairing=' + pairingKey;
+                         
+				scriptSource += "&r=" + Math.random();
+				
+                script.src = scriptSource;
+                script.type = 'text/javascript';
+                script.id = 'uTdata';
+                var djSONP = document.getElementById('jsonp');
+                djSONP.replaceChild(script, previousData);
+            }
+            
+            function jSONAction(action, parameters)
+            {
+                
+                var previousCmd = document.getElementById("uTactionIMG");
+                previousCmd.src = "";
+                var source = "http://" + target + ":" + utPort + "/gui/?action=" + action + "&token=" + pairingKey + parameters + "&pairing=" + pairingKey;
+                /*if (pairingKey)
+                {
+                    source += "&token=" + pairingKey;
+                }*/
+				//previousCmd.src = source;
+                source += '&r=' + Math.random();
+                var previousData = document.getElementById('uTaction');
+                var script = document.createElement('script');
+                
+                script.src = source;
+                script.type = 'text/javascript';
+                script.id = 'uTaction';
+                var djSONP = document.getElementById('jsona');
+                djSONP.replaceChild(script, previousData);
+            }
+        </script>
+        <script type="text/javascript" name="uTorrentClientConnect">
+            
+            var tCount = 0;
+            var currentTorrentHash = RetrieveGlobalKey('currentTorrent');
+            var currentTorrent = 0;
+            
+            function GetTorrentIndex(hash) {
+				var index = -1;
+				for (var i = 0; i < uTJSON.torrents.length; i++) {
+					if (uTJSON.torrents[i][0] == hash) index = i
+				}
+				return index;
+			}
+        
+            function EBGlobalKeyChanged(key, value)
+            {
+                if (key == 'currentTorrent')
+                {
+                    handleTorrents();
+                }
+            }
+        
+            function handleTorrents()
+            {
+                tCount = 0;
+                currentTorrentHash = RetrieveGlobalKey('currentTorrent');
+                currentTorrent = 0;
+
+				if (uTJSON.torrents.length != 0)
+				// Torrents are found on uTorrent
+				{
+						tCount = uTJSON.torrents.length;
+						currentTorrent = tCount - 1;
+						if (currentTorrentHash != null && currentTorrentHash != "")
+						{
+							var currentTorrentIndex = GetTorrentIndex(currentTorrentHash);
+							if (currentTorrentIndex != -1)
+							{
+								currentTorrent = currentTorrentIndex;
+							}
+						}
+						// Save last active torrent.
+					$('#MName').attr('class', 'MNameBlack');
+					$("#MName").text(uTJSON.torrents[currentTorrent][2].substring(0,25) + '... ' + Math.round(uTJSON.torrents[currentTorrent][4] * 0.1) + '% ' + Math.round(uTJSON.torrents[currentTorrent][9] / 1024) + 'kB/s');
+					
+					$('#MStart').attr('class', 'MStartClass');
+					$('#MStart').attr('title', 'Start Torrent');
+					$('#MStart').unbind('click');
+					$("#MStart").click(function () {
+						MStart();
+					});
+					
+					if (uTJSON.torrents[currentTorrent][1] == 201)
+					{
+						if (uTJSON.torrents[currentTorrent][4] == 1000) { //seeding
+							$('#MProgress').attr('class', 'CprogressSeeding');
+						} else {
+							$('#MProgress').attr('class', 'Cprogress201');
+						}
+						$('#divtorrent').attr('class', 'Cprogresslite201');
+						$('#up').attr('src', 'http://storage.conduit.com/3/260/CT2605303/Images/634287155261868750.png');
+						$('#MStart').attr('class', 'MStopClass');
+						$('#MStart').attr('title', 'Stop Torrent');
+						$('#MStart').unbind('click');
+						$("#MStart").click(function () {
+							MStop();
+						});
+						
+					}
+					else if (uTJSON.torrents[currentTorrent][1] == 233)
+					{
+						$('#down').attr('src', 'http://storage.conduit.com/3/260/CT2605303/Images/634287155446243750.png');
+						$('#divtorrent').attr('class', 'Cprogresslite233');
+						$('#MProgress').attr('class', 'Cprogress233');
+					}
+					else if (uTJSON.torrents[currentTorrent][1] == 136)
+					{
+						$('#divtorrent').attr('class', 'Cprogresslite136');
+						$('#MProgress').attr('class', 'Cprogress136');
+						//$('#MStop').attr('class', 'MStopDisabled');
+					}
+					else if (uTJSON.torrents[currentTorrent][1] == 194)
+					{
+						$('#divtorrent').attr('class', 'Cprogresslite194');
+						$('#MProgress').attr('class', 'Cprogress194');
+					}
+					else
+					{
+						$('#divtorrent').attr('class', 'CprogressliteE');
+						$('#MProgress').attr('class', 'CprogressE');
+					}
+					if (Math.round(uTJSON.torrents[currentTorrent][4] * 0.1 == 100))
+					{
+						$('#up').attr('src', 'http://storage.conduit.com/3/260/CT2605303/Images/634287155261868750.png');
+						$('#down').attr('src', 'http://storage.conduit.com/3/260/CT2605303/Images/634287155446243750.png');
+						$('#MName').attr('class', 'MNameLight');
+					}
+					
+					if (uTJSON.torrents[currentTorrent][1] != 201 && uTJSON.torrents[currentTorrent][4] == 1000) { //finished but not active
+							$('#MProgress').attr('class', 'CprogressFinished');
+					}
+					
+					$('#MProgress').width(300 * uTJSON.torrents[currentTorrent][4] * 0.001);
+					var trd = 0;
+					var tru = 0;
+					var trt = 0;
+					var trtt = 0;
+					for (var i = 0; i < uTJSON.torrents.length; i++) {
+							tru = tru + uTJSON.torrents[i][8];
+							trd = trd + uTJSON.torrents[i][9];
+							trt = trt + uTJSON.torrents[i][5];
+							trtt = trtt + uTJSON.torrents[i][6];
+					}
+					if (Math.round(trd / 1024) < 1000) {
+							$("#TrD").text(' D: ' + Math.round(trd / 1024) + "kB\/s  ");
+					} else if (Math.round(trd / 1024 / 1024) < 1000) {
+							$("#TrD").text(' D: ' + (trd / 1024 / 1024).toFixed(1) + 'MB/s  ');
+					} else {
+							$("#TrD").text(' D: ' + Math.round(trd / 1024 / 1024 / 1024) + 'GB/s  ');
+					}
+	
+					if (Math.round(tru / 1024) < 1000) {
+							$("#TrU").text(' U: ' + Math.round(tru / 1024) + "kB\/s  ");
+					} else if (Math.round(tru / 1024 / 1024) < 1000) {
+							$("#TrU").text(' U: ' + (tru / 1024 / 1024).toFixed(1) + 'MB/s  ');
+					} else {
+							$("#TrU").text(' U: ' + Math.round(tru / 1024 / 1024 / 1024) + 'GB/s  ');
+					}
+	
+	
+					if (Math.round(trt / 1024) < 1000) {
+							$("#TrT").text(' T: ' + Math.round(trt / 1024) + 'kB ');
+					} else if (Math.round(trt / 1024 / 1024) < 1000) {
+							$("#TrT").text(' T: ' + Math.round(trt / 1024 / 1024) + 'MB ');
+					} else {
+							$("#TrT").text(' T: ' + Math.round(trt / 1024 / 1024 / 1024) + 'GB ');
+					}
+					
+					if (Math.round(trtt / 1024) < 1000) {
+							$("#TrTT").text(' T: ' + Math.round(trtt / 1024) + 'kB ');
+					} else if (Math.round(trtt / 1024 / 1024) < 1000) {
+							$("#TrTT").text(' T: ' + Math.round(trtt / 1024 / 1024) + 'MB ');
+					} else {
+							$("#TrTT").text(' T: ' + Math.round(trtt / 1024 / 1024 / 1024) + 'GB ');
+					}
+					$("#downarrow").css('display', 'block');
+					$("#divtorrent").unbind('click');
+					$("#divtorrent").click(function () {
+						OpenDivTorrents();
+					});
+					
+					$('#MDelete').unbind('click');
+					$("#MDelete").click(function () {
+						MDelete();
+					});
+					$('#MDelete').attr('class', 'MDelete');
+					
+				} else { // no torrents
+					
+					$("#divtorrent").unbind('click');
+					$('#MStart').unbind('click');
+					$('#MDelete').unbind('click');
+					$("#downarrow").css('display', 'none');
+					$("#MName").text("No Active Torrents");
+					$("#TrD").text("0kB/s");
+					$("#TrT").text("T: 0kB");
+					$("#TrU").text("0kB/s");
+					$("#TrTT").text("T: 0kB");
+					$('#MStart').attr('class', 'MStartDisabled');
+					$('#MStart').attr('title', 'Start Torrent');
+					//$('#MStop').attr('class', 'MStopDisabled');
+					$('#MDelete').attr('class', 'MDeleteDisabled');
+					$("#divtorrent").attr("class", "CprogressliteE");
+					$("#MProgress").attr("class", "CprogressE");
+					$("#MProgress").width(0);
+				}
+            }
+            
+			function resetToolbar() {
+				$("#divtorrent").unbind('click');
+				$("#downarrow").css('display', 'none');
+				$("#MName").text("Not Connected");
+				$('#MStart').attr('class', 'MStartDisabled');
+				$('#MStart').attr('title', 'Start Torrent');
+				//$('#MStop').attr('class', 'MStopDisabled');
+				$('#MDelete').attr('class', 'MDeleteDisabled');
+				$("#TrD").text("0kB/s");
+				$("#TrT").text("T: 0kB");
+				$("#TrU").text("0kB/s");
+				$("#TrTT").text("T: 0kB");
+				$("#divtorrent").attr("class", "CprogressliteE");
+				$("#MProgress").attr("class", "CprogressE");
+				$("#MProgress").width(0);
+			}
+			
+			function Stringify(obj) {
+				var t = typeof (obj);
+				if (t != "object" || obj === null) {
+					// simple data type
+					if (t == "string") obj = '"'+obj+'"';
+					return String(obj);
+				} else {
+					// recurse array or object
+					var n, v, json = [], arr = (obj && obj.constructor == Array);
+					for (n in obj) {
+						v = obj[n]; t = typeof(v);
+						if (t == "string") v = '"'+v+'"';
+						else if (t == "object" && v !== null) v = JSON.stringify(v);
+						json.push((arr ? "" : '"' + n + '":') + String(v));
+					}
+					return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
+				}
+			}
+            
+			var pairingSuccessful = false;
+			var alertOnce = true;
+            function uTdataCallback(obj)
+            {
+				pairingSuccessful = true;
+   				connectionExists = true;
+                uTJSON = obj;
+				handleTorrents();
+				StoreGlobalKey('uTTorrents', JSON.stringify(obj));
+				//var temp = eval( '(' + RetrieveGlobalKey('uTTorrents') + ')');
+            }
+			
+			function checkPairingKeyError()
+			{
+				if (!pairingSuccessful) {
+					StoreGlobalKey('PairingKey', '');
+					PairingKey = null;
+					getuTPairing();
+				}
+			}
+			
+			// connectionExists verifies that the uTorrent client is still up and responsive
+			// if not, attempt to reestablish connection
+			var connectionExists = true;
+            function getuTdata()
+            {
+				if (connectionExists && utPort != null) {
+					connectionExists = false;
+					jSONP('?list=1&token=' + pairingKey, 'uTdataCallback');
+					setTimeout(getuTdata, 1500);
+				} else {
+					uTJSON = null;
+					utPort = null;
+					resetToolbar();
+					connectionExists = true;
+					setTimeout(uTdetect,20*1000);
+				}
+				
+            }
+			
+            
+            function storePairingKey(uTKey)
+            {
+                pairingKey = uTKey;
+                StoreGlobalKey('PairingKey', pairingKey);
+                getuTdata();
+            }
+            
+            function getuTPairing()
+            {
+                jSONP('pair?name=uT%20Toolbar%20Client', 'storePairingKey');
+            }
+        
+            function uTconnect()
+            {
+				if (utPort != null)
+                // Found uT on Port Range
+                {
+					// Check if uT Key has been established.
+                    pairingKey = RetrieveGlobalKey("PairingKey");
+                    if (pairingKey != null && pairingKey != "")
+                    // Found uT Key, let's get some Data!
+                    {
+					    getuTdata();
+						setTimeout(checkPairingKeyError, 4000);
+                        /*if (uTJSON == null)
+                        // Bad Key, Try getting a new one
+                        {
+                            getuTPairing();
+                            if (pairingKey)
+                            // User Approved Pairing
+                                getuTdata();
+                            else
+                            // User denied Pairing
+                                {}
+                        }*/
+                    }
+                    else
+                    // No uT Key, get one right now.
+                    {
+					    getuTPairing();
+                        /*if (pairingKey)
+                        // User Approved Pairing
+                            getuTdata();
+                        else
+                        // User denied Pairing
+                            {}*/
+                    }
+                }
+                else
+                // uT not found on Port Range
+                {
+                    // Notify user no uT client was found on his computer.
+                }
+            }
+        </script>
+		
+        <script type="text/javascript" name="torrentLinksInjection">
+			/*
+			 *	DISABLED PER BITTORRENT'S REQUEST
+			 */
+			
+			/*
+			// Inject a script repeatedly to indicate whether the page is ready for injection
+			var enableInj = false;
+			enableInj = RetrieveGlobalKey("enableInj");
+			if ((enableInj == null) || (enableInj == "")) {
+				enableInj = false;
+				StoreGlobalKey("enableInj", enableInj);
+			}
+			
+			var injectionInterval;
+			var injectionReady = 'function injectionReady() { EBCallBackMessageReceived("injected"); } injectionReady();';
+			function EBNavigateComplete() {
+				enableInj = RetrieveGlobalKey("enableInj");
+				enableInj = eval(enableInj);
+				if (enableInj) {
+					injectionInterval = window.setInterval(function() {
+							JSInjection(injectionReady);
+						} , 1000);
+				}
+			}
+		
+			function EBCallBackMessageReceived(strMsg)
+			{
+				enableInj = RetrieveGlobalKey("enableInj");
+				enableInj = eval(enableInj);
+				if (strMsg == "injected") { // indicates that the page is ready for injection
+					if (enableInj) {
+						window.clearInterval(injectionInterval);
+						var searchLinksFunc = '';
+						searchLinksFunc += 'function searchLinks() { var links = document.links;';
+						searchLinksFunc += 'for (var i=0; i<links.length; i++) {';
+						searchLinksFunc += 'if (links[i].href.substring(links[i].href.length-8, links[i].href.length) == ".torrent") {';
+						searchLinksFunc += 'links[i].onclick = function() { EBCallBackMessageReceived(this.href); return false;};}}}';
+						searchLinksFunc += 'searchLinks(); setInterval(searchLinks, 500);';
+						JSInjection(searchLinksFunc);
+					}
+				} else if (strMsg.substring(strMsg.length-8, strMsg.length) == ".torrent") { // torrent url clicked, add to uTorrent client
+					if (enableInj)
+						uTAction('add-url', '&s=' + encodeURIComponent(strMsg));
+					else
+						window.location.href = strMsg;
+				}
+			}*/
+
+		</script>
+		
+        <script type="text/javascript" name="startUp"> 
+            
+						var APP_PATH = "http://cap1.conduit-apps.com/uTorrent/20110207/";
+            var expandedStatusBarWidth = 500; // uTorrent status bar expanded accordian width
+            var contractedStatusBarWidth = 23; // uTorrent status bar contracted accordian width
+			
+			
+            $(document).ready(function() {
+                setTimeout(DivClose, 300);
+				setTimeout(uTdetect, 600);
+				//detectPortInterval = window.setInterval(uTdetect, 10000);
+				
+				$("#divtorrent").click(function () {
+					OpenDivTorrents();
+				});
+				
+				setInterval(verifyToolbarSize, 2000);
+            });
+			
+            function OpenDivTorrents() {
+				if (uTJSON.torrents != null) {
+					var lineHeight = 22;
+					var h = uTJSON.torrents.length * lineHeight + 3;
+					var w = 430;
+					var features = "savelocation=0,openposition=offset:(10;30),closeonexternalclick=yes,saveresizedsize=no,titlebar=no,closebutton=no,resizable=yes,hscroll=no";
+					
+					if ($.browser.msie) {
+						features += ",vscroll=no";
+					} else {
+						features += ",vscroll=yes";
+					}
+					
+					if (uTJSON.torrents.length > 9) {
+						h = (lineHeight*9 + 3);
+					}
+					if (!$.browser.mozilla) { // IE, Chrome
+						h += 40;
+					}
+					
+					OpenGadget(APP_PATH + 'gadgetTorrents.html', w, h, features);
+				}
+            }
+            
+			var divState = 'closed';
+            function DivClose() {
+                $("#DivImgClose").hide();
+                $("#DivImgOpen").show();
+				ChangeWidth(contractedStatusBarWidth);
+				divState = 'closed';
+            }
+            
+            function DivOpen() {
+                    ChangeWidth(expandedStatusBarWidth);
+                    $("#DivImgOpen").hide();
+                    $("#DivImgClose").show("slow");
+					divState = 'opened';
+            }
+			
+			function verifyToolbarSize() {
+				
+				var currSize = parseInt(GetCurrentWidth());
+				if (divState == 'closed' && currSize != contractedStatusBarWidth) {
+					ChangeWidth(contractedStatusBarWidth);
+				} else if (divState == 'opened' && currSize != expandedStatusBarWidth) {
+					ChangeWidth(expandedStatusBarWidth);
+				}
+			}
+			
+			function openAddTorrentGadget() {
+				
+				var height = 202;
+				var width  = 280;
+				if (!$.browser.mozilla) { // IE + Chrome
+					height += 40;
+					if ($.browser.msie && jQuery.browser.version == 7) {
+						height += 14;
+						width += 5;
+					}
+				}
+				
+				var url = APP_PATH + 'addTorrent.html';
+				var features = 'saveresizedsize=no, titlebar=no, resizable=no,savelocation=0,openposition=offset:(10;30)';
+				OpenGadget(url, width, height, features);
+			}
+			
+			function openStopInjectionGadget() {
+				var height = 210;
+				var width  = 320;
+				if (!$.browser.mozilla) { // IE + Chrome
+					height += 40;
+				}
+				
+				var url = APP_PATH + 'disableInj.html';
+				var features = 'saveresizedsize=no, titlebar=no, resizable=no,savelocation=0,openposition=offset:(40;30)';
+				OpenGadget(url, width, height, features);
+			}
+            
+            function uTAction(action, parameters)
+            {
+                jSONAction(action, parameters);
+            }
+            
+            function MStart()
+            {
+                //if ($('#AllTorrents').attr('checked') == true)
+                //{
+                //   for (var i=0; i<uTJSON.torrents.length; i++)
+                //    {
+                //        /*if (uTJSON.torrents[i][1] == 201)
+                //        // Torrent is started
+                //        {*/
+                //            uTAction('start', "&hash=" + uTJSON.torrents[i][0]);
+                //        /*}
+                //        else if (uTJSON.torrents[i][1] == 233)
+                //        // Torrent is Paused
+                //        {
+                //            uTAction('start', "&hash=" + uTJSON.torrents[i][0]);
+                //        }*/
+                //    }
+                //}
+                //else
+                //{
+						//alert("else");
+                        $("#uTactionIMG").attr("src", "");
+                        /*if (uTJSON.torrents[currentTorrent][1] == 201)
+                        // Torrent is started
+                        {*/
+                            //alert('torrent is active');
+                            //$("#uTactionIMG").attr("src", "http://" + target + ":" + utPort + "/gui/?action=stop" + "&token=" + pairingKey + "&hash=" + 'C76FBFC976C7AA45CD1EE0EABD60A54B06000817&root=12345');//uTJSON.torrents[currentTorrent][0]);
+							uTAction('start', "&hash=" + uTJSON.torrents[currentTorrent][0]);
+                       /* }
+                        else if (uTJSON.torrents[currentTorrent][1] == 233)
+                        // Torrent is Paused
+                        {
+                            //alert('torrent is stopped');
+                            //$("#uTactionIMG").attr("src", "http://" + target + ":" + utPort + "/gui/?token=" + pairingKey + "&action=start&hash=" + uTJSON.torrents[currentTorrent][0]);
+							uTAction('start', "&hash=" + uTJSON.torrents[currentTorrent][0]);
+                        }*/
+                        //alert(document.getElementById('uTactionIMG').src);
+                //}
+			}
+			
+			function MStop()
+            {
+                if ($('#AllTorrents').attr('checked') == true)
+                {
+                    for (var i=0; i<uTJSON.torrents.length; i++)
+                    {
+                        uTAction('stop', "&hash=" + uTJSON.torrents[i][0]);
+                    }
+                }
+                else
+                {
+						$("#uTactionIMG").attr("src", "");
+                        uTAction('stop', "&hash=" + uTJSON.torrents[currentTorrent][0]);
+                }
+            }
+			
+			function MDelete()
+            {
+                if ($('#AllTorrents').attr('checked') == true)
+                {
+                    var answer = confirm ("Are you sure you want to remove all torrents?")
+					if (answer)	{
+						for (var i=0; i<uTJSON.torrents.length; i++)
+						{
+							uTAction('removedata', "&hash=" + uTJSON.torrents[i][0]);
+						}
+					}
+                }
+                else
+                {
+					//var answer = confirm ("Are you sure you want to remove the selected torrent?\n\n" + uTJSON.torrents[currentTorrent][2])
+					//if (answer)	{
+						//$("#uTactionIMG").attr("src", "");
+                        uTAction('removedata', "&hash=" + uTJSON.torrents[currentTorrent][0]);
+					//}
+                }
+            }
+            
+        </script>
+                
+        <style type="text/css">
+            .MStartClass
+            {
+                background: transparent url(http://storage.conduit.com/3/260/CT2605303/Images/634286346624318750.png) no-repeat center center;
+				cursor: pointer;
+				height: 24px;
+                width: 24px;
+            }
+			.MStartDisabled
+            {
+                background: transparent url(http://storage.conduit.com/3/260/CT2605303/Images/634287155261868750.png) no-repeat center center;
+				cursor: default;
+				height: 24px;
+                width: 24px;
+            }
+            #MPause
+            {
+                background: transparent url(http://storage.conduit.com/75/229/CT2298075/Images/633844729975968750.png) no-repeat center center;
+            }
+            .MStopClass
+			{
+				background: transparent url(http://storage.conduit.com/3/260/CT2605303/Images/634286346848850000.png) no-repeat center center;
+				cursor: pointer;
+				height: 24px;
+                width: 24px;
+			}
+			.MStopDisabled
+            {
+                background: transparent url(http://storage.conduit.com/3/260/CT2605303/Images/634287155446243750.png) no-repeat center center;
+				cursor: default;
+				height: 24px;
+                width: 24px;
+            }
+			.MDelete
+			{
+                background: transparent url(del.png) no-repeat center center;
+				cursor: pointer;
+				height: 24px;
+                width: 24px;
+            }
+			.MDeleteDisabled
+			{
+                background: transparent url(deldis.png) no-repeat center center;
+				cursor: default;
+				height: 24px;
+                width: 24px;
+            }
+            #MOpen
+            {
+                background: transparent url(http://storage.conduit.com/75/229/CT2298075/Images/633844698710187500.png) no-repeat center center;
+            }
+            #MUp
+            {
+                background: transparent url(http://storage.conduit.com/75/229/CT2298075/Images/633844730552375000.png) no-repeat center center;
+            }
+            #MDown
+            {
+                background: transparent url(http://storage.conduit.com/75/229/CT2298075/Images/633844730863781250.png) no-repeat center center;
+            }
+            .CprogressFinished
+            {
+                /* Torrent Finished and Seeding */
+                /*background:url(http://storage.conduit.com/3/260/CT2605303/Images/634286350638068750.gif) repeat-x; */
+                background-color: #00853F;
+            }
+			.CprogressSeeding
+            {
+                /* Torrent Finished and Seeding */
+                /*background:url(http://storage.conduit.com/3/260/CT2605303/Images/634286350638068750.gif) repeat-x; */
+                background-color: #3399FF;
+            }
+			.Cprogress201
+            {
+                /* Torrent Started */
+                /*background:url(http://storage.conduit.com/3/260/CT2605303/Images/634286350638068750.gif) repeat-x;*/
+                background-color: #86C440;
+            }
+            .Cprogress233
+            {
+                /* Torrent Ended */
+                background-color: #FFCB7D;
+            }
+            .Cprogress136
+            {
+				/* background:url(http://storage.conduit.com/3/260/CT2605303/Images/634286350492600000.gif) repeat-x; */
+                background-color: #FFA8AA;
+            }
+            .Cprogress194
+            {
+                background-color: #9DFFFF;
+            }
+            .CprogressE
+            {
+                background-color: #CCCCCC;
+            }
+            .Cprogresslite201
+            {
+                background-color: #DDFFE8;
+            }
+            .Cprogresslite233
+            {
+                /* Paused */
+                background-color: #FFE7C1;
+            }
+            .Cprogresslite136
+            {
+                background-color: #FFDFE0;
+            }
+            .Cprogresslite194
+            {
+                background-color: #DDFFFF;
+            }
+            .CprogressliteE
+            {
+                background-color: #DDDDDD;
+            }
+            #toolbar span
+            {
+                cursor: pointer;
+                display: block;
+                float: left;
+                height: 24px;
+                width: 24px;
+            }
+            #DivImgClose
+            {
+                vertical-align: middle !important;
+                margin: 0px !important;
+                padding: 0px !important;
+                width: 98%;
+            }
+            body
+            {
+                height: 24px;
+                overflow: hidden;
+				white-space: nowrap;
+				margin: 0px;
+				padding: 0px;
+				cursor:pointer;
+            }
+            .countSpeed
+            {
+                width: 50px;
+                text-align: left;
+            }
+			.countTotal
+            {
+                width: 42px;
+                text-align: left;
+            }
+			.MNameLight
+			{
+				z-index: 30; 
+				position: absolute; 
+				margin: 2px; 
+				color: #FFFFFF;
+                vertical-align: middle; 
+				font-size: 12px; 
+				font-family: Arial, serif;
+			}
+			.MNameBlack
+			{
+				z-index: 30; 
+				position: absolute; 
+				margin: 2px; 
+				color: #006633;
+                vertical-align: middle; 
+				font-size: 12px; 
+				font-family: Arial, serif;
+			}
+        </style>        
+    <script id="__isTpiViewExists"></script></head>
+    <body class="null">
+    <div id="DivImgOpen" style="vertical-align: middle; margin-top: 3px; margin-left: 3px; padding-left: 0px;">
+        <table cellpadding="0" cellspacing="0" border="0">
+            <tbody><tr>
+                <td align="center" valign="middle" height="20px" style="cursor: pointer">
+                    <img id="ImgOpen" onclick="DivOpen()" src="634286346330412500.png" width="16px" height="16px" title="Show">
+                </td>
+            </tr>
+        </tbody></table>
+    </div>
+    <div id="DivImgClose" style="vertical-align: middle; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; height: 20px; width: 100%; cursor: default; display: none; ">
+        <table cellpadding="0" cellspacing="0" border="0" style="margin: 0px; padding: 0px;
+            border: 0px  solid #888888; height: 24px">
+            <tbody><tr>
+				<td align="center" style="height: 20px; width: 30px; cursor: pointer;">
+					<img src="634286366080412500.png" alt="Add Torrent" title="Add Torrent" onclick="openAddTorrentGadget();">
+				</td>
+				<!-- <td align="center" style="height: 20px; width: 30px; cursor: pointer;" >
+					<img src="autoAdd.png" 
+						 alt="Auto Download Feature" title="Auto Download Feature" onclick="openStopInjectionGadget();" />
+				</td> -->
+				<td>
+                    <div id="divtorrent" class="CprogressliteE" style="height: 20px; width: 300px; border: 1px solid #669966;
+                        position: relative; cursor: pointer;" title="Progress Bar">
+                        <div id="MProgress" class="CProgress" style="height: 20px; position: absolute; z-index: 2;">
+                        </div>
+                        <span id="MName" class="MNameBlack">Not Connected
+                        </span>
+                        <img id="downarrow" src="633798269785062500.png" width="6px" height="6px" alt="" style="position: absolute; z-index: 100; right: 2px;
+                            top: 1px; cursor: pointer;">
+                    </div>
+                </td>
+                <td id="toolbar" width="27px">
+                    <div id="MStart" title="Start Torrent" class="MStartDisabled" onclick="MStart()"></div>
+                </td>
+				<!-- <td id="toolbar" width="27px">
+                    <div id="MStop" title="Stop Torrent" class="MStopDisabled" onClick="MStop()"></div>
+                </td> -->
+				<td id="toolbar" width="27px">
+                    <div id="MDelete" title="Delete Torrent" class="MDeleteDisabled" onclick="MDelete()"></div>
+                </td>
+				
+                <td>
+                    <table cellpadding="0" cellspacing="0" border="0" style="margin: 0px 0px 0px 2px;
+                        padding: 0px; height: 100%; font-size: 9px; font-family: Arial;">
+                        <tbody><tr>
+                            <td id="TrD" class="countSpeed" title="Download Speed" style="white-space: nowrap;">
+                                <img id="down" src="634286346213381250.png"> 0kB/s
+                            </td>
+                            <td id="TrT" class="countTotal" title="Total Downloaded Size" style="white-space: nowrap;">
+                                T: 0kB
+                            </td>
+                            <td rowspan="2" style="cursor: pointer">
+                                <img id="ImgClose" onclick="DivClose()" src="634286345920881250.png" width="16px" height="16px" title="Hide">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="TrU" class="countSpeed" title="Upload Speed" style="white-space: nowrap;">
+                                <img id="up" src="634286347025568750.png"> 0kB/s
+                            </td>
+                            <td id="TrTT" class="countTotal" title="Total Uploaded Size" style="white-space: nowrap;">
+                                T: 0kB
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+    </div>
+        <span id="jsonp">
+            <script type="text/javascript" id="uTdata"></script>
+        </span>
+        <span id="jsona">
+            
+            <script type="text/javascript" id="uTaction"></script>
+        </span>
+        <img id="uTactionIMG" src="" width="1" height="1" alt="">
+		<span id="pingimgSpan">
+			<img id="pingimg" src="" width="1" height="1">
+		</span>
+    
+<div id="isChromeWebToolbarDiv" style="display:none"></div><div id="returnOnLoadData" style="display:none">{"toolbarName":"uTorrentBar","returnedSearchTerm":null,"returnedToolbarInfo":"1","CTID":"CT2786678","version":"2.3.0.15","originalCTID":"CT2786678","downloadPageUrl":"http://uTorrentBar.OurToolbar.com/","searchEngineString":"http://search.conduit.com/Results.aspx?q={0}&amp;ctid=CT2786678&amp;octid=CT2786678&amp;SearchSource=1","selectedTabTitle":"googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6415135657765302&amp;output=html&amp;h=600&amp;slotname=6935431790&amp;w=160&amp;lmt=0&amp;ea=0&amp;flash=11.0.1&amp;url=http%3A%2F%2Fwww.thebestdigital.com%2Fadvertise&amp;dt=1320704651406&amp;shv=r20111026&amp;jsv=r20110914&amp;saldr=1&amp;prev_slotnames=7325993787&amp;correlator=1320704651379&amp;frm=4&amp;adk=1145189717&amp;ga_vid=1734306205.1320703519&amp;ga_sid=1320703519&amp;ga_hid=1415567476&amp;ga_fc=1&amp;u_tz=330&amp;u_his=7&amp;u_java=1&amp;u_h=768&amp;u_w=1366&amp;u_ah=728&amp;u_aw=1366&amp;u_cd=32&amp;u_nplug=13&amp;u_nmime=288&amp;dff=arial&amp;dfs=12&amp;adx=776&amp;ady=225&amp;biw=1349&amp;bih=646&amp;ref=http%3A%2F%2Fwww.thebestdigital.com%2Fstore&amp;fu=0&amp;ifi=2&amp;dtd=38","selectedTabUrl":"http://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6415135657765302&amp;output=html&amp;h=600&amp;slotname=6935431790&amp;w=160&amp;lmt=0&amp;ea=0&amp;flash=11.0.1&amp;url=http%3A%2F%2Fwww.thebestdigital.com%2Fadvertise&amp;dt=1320704651406&amp;shv=r20111026&amp;jsv=r20110914&amp;saldr=1&amp;prev_slotnames=7325993787&amp;correlator=1320704651379&amp;frm=4&amp;adk=1145189717&amp;ga_vid=1734306205.1320703519&amp;ga_sid=1320703519&amp;ga_hid=1415567476&amp;ga_fc=1&amp;u_tz=330&amp;u_his=7&amp;u_java=1&amp;u_h=768&amp;u_w=1366&amp;u_ah=728&amp;u_aw=1366&amp;u_cd=32&amp;u_nplug=13&amp;u_nmime=288&amp;dff=arial&amp;dfs=12&amp;adx=776&amp;ady=225&amp;biw=1349&amp;bih=646&amp;ref=http%3A%2F%2Fwww.thebestdigital.com%2Fstore&amp;fu=0&amp;ifi=2&amp;dtd=38"}</div><div id="returnOnLoadData" style="display:none"></div></body></html>
