@@ -1,0 +1,33 @@
+<script type="text/javascript">
+var i;
+i=1;
+function next()
+{
+if(i>17)
+i=1;
+document.getElementById("cont").innerHTML="<img src=images/avatars/a"+i+".bmp width=205 height=397>";
+i++;
+}
+function prev()
+{
+if(i<1)
+i=17;
+document.getElementById("cont").innerHTML="<img src=images/avatars/a"+i+".bmp width=205 height=397>";
+i--;
+}
+</script>
+<style>
+
+#pane ul {float:left;display:block;}
+#pane ul li{float:left;display:block;}
+
+</style>
+<fieldset>
+<legend>Select your own avatar</legend>
+<div id="pane">
+<table>
+<tr><td><button onclick="next()" style="background-color:white"><img src=images/next.png></button>
+<td><div id="cont"><img src=images/avatars/a5.bmp></div>
+<td><button onclick="prev()" style="background-color:white"><img src=images/prev.png></button></tr>
+</div>
+</fieldset>
