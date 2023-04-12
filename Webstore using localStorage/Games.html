@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+ <title>Webstore</title>
+ <h1>Games Web Store</h1>
+</head>
+<style>
+/* General Reset */
+html, body, div, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, hr {
+	margin:0;
+	padding:2;
+	border:0;
+	outline:0;
+	font-size:100%;
+	vertical-align:baseline;
+	background:none;
+	width:100%;
+}
+li {
+	list-style-type:none;
+
+}
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+input, textarea, select {
+	font:12px Arial, Helvetica, sans-serif;
+	vertical-align:middle;
+	padding:0;
+	margin:0;
+}
+
+textarea {
+	overflow:auto;
+	resize:none;
+}
+
+body {
+	margin:0px;
+	padding:0px;
+	font-size:13px;
+	line-height:21px;
+	color:#9FB1B2;
+	font-family:Arial, Helvetica, sans-serif;
+	background-color:#212b2d;
+}
+
+
+
+
+</style>
+<body>
+<script>
+
+let games_list = [];
+const addGame = (ev)=>{
+	ev.preventDefault();
+	let platform = [];
+	$('input[name=platform]:checked').map(function() {
+            platform.push($(this).val()); });
+        let rat =  $('input[id=rating]:checked').val();
+        
+        
+            
+        
+        
+        
+        
+        
+        
+	let game = {
+	id:Date.now(),
+	title:document.getElementById('title').value,
+	developer:document.getElementById('developer').value,
+	dt:document.getElementById('date').value,
+	price:document.getElementById('price').value,
+	genre:document.getElementById('genre').value,
+	rating:rat,
+	img:document.getElementById("image").value,
+	pf:platform,
+	}
+	
+	games_list.push(game);
+	document.forms[0].reset();
+	console.warn('added',{games_list});
+	if(!localStorage.getItem('MyGamesList')){
+	localStorage.setItem('MyGamesList',JSON.stringify(games_list));
+	}
+	else {
+	//var stored = JSON.parse(localStorage.getItem('MyGamesList'));
+	var stored = getGames();
+	stored.push(game);
+	localStorage.setItem("MyGamesList",JSON.stringify(stored));
+	}
+	location.reload();
+}
+document.addEventListener('DOMContentLoaded',()=>{
+	document.getElementById("button").addEventListener('click',addGame);
+});
+
+window.onload= function() {
+let jsonData = getGames();
+let container = document.getElementById("games-list");
+let table = document.createElement("table");
+let thead = document.createElement("thead");
+let tr = document.createElement("tr");
+         table.append(tr)
+         jsonData.forEach((item) => {
+            let tr = document.createElement("tr");
+            let vals = Object.values(item);
+            let text = "";
+            text+="<li><img src='./images/logo1.jpg ' width = '5%' height='5%'> <br>Title: "+vals[1]+"<br>Developer: "+vals[2]+"<br> Release Date: "+vals[3];
+            text+=", Price:"+vals[4]+" Genre: "+vals[5]+", Rating: "+vals[6]+", Platform: "+vals[8]+"</li>";
+            
+            let td = document.createElement("td");
+            td.innerHTML= text;
+            tr.appendChild(td);
+            table.appendChild(tr); // Append the table row to the table
+         });
+         container.appendChild(table) 
+}
+
+
+function getGames() {
+    const gamesJSON = localStorage.getItem('MyGamesList');
+    if (gamesJSON !== null) {
+        return JSON.parse(gamesJSON);    
+    }else{
+        return [];
+    }
+    
+}
+
+function searchGame(searchText) {
+var res="";
+var jsonData = getGames();
+	jsonData.forEach((item)=>{
+	if(item['genre']===searchText) {
+        res+="<li><img src='./images/logo1.jpg ' width = '5%' height='5%'> <br> Title:"+item['title']+", Developer:"+item['developer']+", Release Date:"+item['dt'];
+            res+="<br>Price:"+item['price']+", Genre:"+item['genre']+", Rating:"+item['rating']+", Platform:"+item['pf']+"</li>";
+	}
+	});
+	document.getElementById("searchResult").innerHTML = res;
+
+}
+function searchPf(query) {
+	document.getElementById("drop-down").innerHTML = query;
+	var res="";
+	var jsonData = getGames();
+	jsonData.forEach((item)=>{
+	let val = Object.values(item['pf']);
+	if(val.includes(query))
+	res+="<li><img src='./images/logo1.jpg ' width = '5%' height='5%'> <br> Title :"+item['title']+", Price:"+item['price']+"<br><a href='#' onclick='details("+item['id']+")'>Details</a></li>";
+
+	});
+	document.getElementById("drop-down").innerHTML = res;
+
+}	
+function details(id) {
+	
+	var jsonData = getGames();
+	var text="";
+	jsonData.forEach((item)=>{
+	if(item['id']===id) {
+	text+="<li><img src='./images/logo1.jpg ' width = '5%' height='5%'>  <br> Title : "+item['title']+", Developer:"+item['developer']+", Release Date:"+item['dt'];
+            text+=" <br>Price:"+item['price']+", Genre:"+item['genre']+", Rating:"+item['rating']+", Platform:"+item['pf']+"</li>";
+	}
+	});
+	document.getElementById("searchDetail").innerHTML = text;
+	
+}
+function searchPrice() {
+	var jsonData = getGames();
+	var max = 0;
+	jsonData.forEach((item)=>{
+	var p = Number(item['price']); 
+	if(p>max) {
+	max = p; 
+	}
+	});
+	var text = "";
+	jsonData.forEach((item)=>{
+	var p = Number(item['price']); 
+	if(p<max) {
+	text+="<li><img src='./images/logo1.jpg ' width = '5%' height='5%'> <br>Title:"+item['title']+", Developer:"+item['developer']+", Release Date:"+item['dt'];
+        text+="<br>Price:"+item['price']+", Genre:"+item['genre']+", Rating:"+item['rating']+", Platform:"+item['pf']+"</li>";
+	}
+	});
+	document.getElementById("searchDetail2").innerHTML = text;
+}
+ 
+
+
+
+
+</script>
+
+<table width="auto">
+<tr><td><div id="games-list"><br><h1>Games</h1><br></div></td></tr>
+<tr><td>
+<div>
+<h1>Filter</h1>
+<br>
+<h2>By Platform</h2>
+<select name="drop" id="drop" onchange="searchPf(document.getElementById('drop').value)">
+<option value="" selected disabled hidden>Platform</option>
+<option value="PC">PC</option>
+<option value="PS4">PS4</option>
+<option value="XBOXONE">XBOX ONE</option>
+<option value="Nintendo">Nintendo</option>
+</select> 
+</div>
+<br>
+<div id = "search">
+	<h2>By Genre</h2>
+	<input type="text" id="searchText" name="search" placeholder = "Genre">
+	<button type="button" id="Search" onclick="searchGame(document.getElementById('searchText').value)">Search by Genre</button>
+</div>
+<div id= "search2">
+	<h2>Maximum Price</h2>
+	<button type="button" id="SearchPrice" onclick="searchPrice()">Search by Price</button>
+</div>
+
+<br><br><br><h2>Add New Games</h2><br><br><div id="addNew">
+<form>
+<label>Title : </label><input type="text" id="title" name="title" placeholder="Title"><br>
+<label>Developer : </label><input type="text" id="developer" name="developer" placeholder="Developer"><br>
+<label>Release Date : </label><input type="date" id="date" name="date"><br>
+<label>Price : </label><input type="text" id="price" name="price"><br>
+<label>Genre : </label><input type="text" id="genre" name="genre" placeholder="Genre"><br>
+<label>Rating : </label><label>1</label><input type="radio" id="rating"  value = 1>
+			<label>2</label><input type="radio" id="rating"  value = 2>
+			<label>3</label><input type="radio" id="rating"  value = 3>
+			<label>4</label><input type="radio" id="rating"  value = 4>
+			<label>5</label><input type="radio" id="rating"  value = 5>
+			<br>
+<label>Platform : </label><label>PC</label><input type="checkbox" id="PC" name="platform" value = "PC">
+			  <label>PS4</label><input type="checkbox" id="PS4" name="platform" value = "PS4">
+			  <label>XBOX ONE</label><input type="checkbox" id="XBOX" name="platform" value = "XBOXONE">
+			  <label>NINTENDO SWITCH</label><input type="checkbox" id="Nintendo" name="platform" value = "Nintendo"><br>
+<label>Screenshot : </label><input type="text" id="image" name="image" >
+<br>
+<br><br>
+<button type="button" id="button">Add</button></form></div></td></tr>
+<t><td><div id="drop-down"></div></td></tr>
+<tr><td><div id = "searchResult"></div></td></tr>
+<tr><td><div id = "searchDetail"></div></td></tr>
+
+<tr><td><div id = "searchDetail2"></div></td></tr>
+
+
+</table>
+
+
+
+</body>
+</html>
+
