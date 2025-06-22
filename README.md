@@ -1,1 +1,9 @@
-# p_2023
+## Technology
+- PHP
+- REST
+- JAVASCRIPT
+- MySQL
+- C
+- HTML
+- CSS
+- JSP
